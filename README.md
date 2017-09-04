@@ -1,6 +1,6 @@
 # Repositorio con ejemplos de presentaciones con R Markdown
 
-En este repositorio se presentan varios ejemplos de presentaciones hechas con R Markdown.
+En este repositorio se presentan varios ejemplos de presentaciones, informes y poster hechas con Latex y R Markdown.
 
-Para consultar otras plantillas hermosas se recomienda visitar https://github.com/martinbjeldbak/ultimate-beamer-theme-list.
+Para consultar otras plantillas para presentaciones se recomienda visitar https://github.com/martinbjeldbak/ultimate-beamer-theme-list.
 
