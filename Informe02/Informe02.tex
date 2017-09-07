@@ -1,0 +1,31 @@
+\documentclass[10pt]{article}
+
+\usepackage[round]{natbib}
+\bibliographystyle{abbrvnat}
+  
+%-------------------------------------------------------------------
+\begin{document}
+	
+	\title{How to include references automatically with \textbf{natbib}?}
+	\author{Freddy Hern\'andez}
+	\maketitle
+%-------------------------------------------------------------------
+\section{\textbf{natbib} package}
+\textbf{natbib} is a package to include references in a document easily. The natbib package has two basic citation commands, \verb|\citet| and \verb|\citep| for textual and parenthetical citations, respectively.\\
+
+Next we have some examples using these comands, on left we have the instruction and after the symbol $\longrightarrow$ we have the results.
+
+\begin{itemize}
+	\item \verb|\citet{einstein}| $\longrightarrow$ \citet{einstein}. \\
+	\item \verb|\citep{einstein}| $\longrightarrow$ \citep{einstein}. \\
+	\item \verb|\citet[chap. 2]{einstein}| $\longrightarrow$ \citet[chap. 2]{einstein}. \\
+	\item \verb|\citep[chap. 2]{einstein}| $\longrightarrow$ \citep[chap. 2]{einstein}. \\
+	\item \verb|\citet*{einstein}| $\longrightarrow$ \citet{einstein}. \\
+	\item \verb|\citep{einstein}| $\longrightarrow$ \citep{einstein}. \\
+\end{itemize}
+
+
+%-------------------------------------------------------------------
+\bibliography{myReferences}
+%-------------------------------------------------------------------
+\end{document}
