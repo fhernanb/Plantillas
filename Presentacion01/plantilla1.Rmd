@@ -3,6 +3,7 @@ title: "Titulo de la presentacion"
 subtitle: "Subtitulo de la presentacion"
 author: "Autor de la presentacion"
 fontsize: 9pt
+date: \today
 output:
   beamer_presentation:
     includes:
@@ -17,9 +18,9 @@ knitr::opts_chunk$set(echo=FALSE, eval=TRUE)
 
 \centerline{\includegraphics[height=2.3in]{videoRmarkdown.png}}
 
-To see the video \alert{https://vimeo.com/178485416}
+To see the video please visit this url \alert{https://vimeo.com/178485416}
 
-## Is useful Rmarkdown?
+## Is RMarkdown useful?
 
 \centerline{\includegraphics[height=2.3in]{RMarkdownOutputFormats.png}}
 
@@ -40,12 +41,12 @@ You can find the cheatsheet in: \color{green} https://www.rstudio.com/wp-content
 Visit \alert{http://rmarkdown.rstudio.com/lesson-1.html}, there a lot of lesson to learn.
 
 ## Getting started
-To work with R Markdown, if necessary:
+To work with R Markdown you need:
 
 * Install [R](http://www.r-project.org/)
 * Install the lastest version of [RStudio](http://rstudio.org/download/)
 * Install the latest version of the `knitr` package: `install.packages("knitr")`
-* Isntall latex if your output is in beamer format
+* Install latex if your output is in beamer format
 
 # First section
 
