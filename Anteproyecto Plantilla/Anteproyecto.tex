@@ -1,0 +1,243 @@
+\documentclass[12pt]{article}
+
+
+%%%% Paquetes
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[T1]{fontenc} 
+\usepackage[spanish]{babel} 
+\usepackage{ragged2e}
+\usepackage{verbatim}
+\usepackage{cite}
+\usepackage[protrusion=true,expansion=true]{microtype} 
+\usepackage{amsmath,amsfonts,amsthm,latexsym,amssymb,mathrsfs}% Math packages
+\usepackage[pdftex]{graphicx} 
+\usepackage{url}
+\usepackage[hidelinks]{hyperref}
+\usepackage{multicol}
+\usepackage{multirow} 
+\usepackage{natbib}
+\usepackage{fancyhdr}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{color}
+
+
+% Símbolos adicionales de AMS - LATEX
+\setlength{\oddsidemargin}{0.25in}
+\setlength{\textwidth}{6in}
+\setlength{\topmargin}{-0.25in}
+\setlength{\textheight}{8.5in}
+\renewcommand{\baselinestretch}{1.15}
+\allowdisplaybreaks
+\decimalpoint
+\def\R{\mathbb R}
+\def\E{\mathbb E}
+\def\Q{\mathbb Q}
+\def\C{\mathbb C}
+\def\Z{\mathbb Z}
+\def\P{\mathbb P}
+\def\H{\mathbb H}
+\def\ci{\perp\!\!\!\perp}
+
+%%%%%%%%%%%%%% ALIAS EN BIBLIOGRAFIA!!!!!!,orden y nombre figuras y tablas%%%%
+\defcitealias{Black1973}{Black-Scholes (1973)}
+\newcommand{\GG}[1]{}
+\setcounter{secnumdepth}{5}
+\setcounter{tocdepth}{5}
+\defcitealias{R}{\texttt{R}}
+
+
+
+%%%%%%%%% PORTADA
+	\title{\textbf{Anteproyecto Trabajo de Grado\\
+		Maestría en Ciencias-Estadística}
+		\author{\\\\\\Nombre Estudiante\\ \vspace{1.0cm}
+			Estudiante de Maestría en Ciencias-Estadística\\\\\\\\\\
+			Nombre Asesor\\
+			Profesor Auxiliar-Asistente-Titular-Asociado Escuela de Estadística\\
+			Director de Tesis\\\\\\\\\\\\
+			Escuela de Estadística\\
+			Universidad Nacional de Colombia\\
+			2025}
+	}\date{}
+
+		
+
+%-----------------------------------------------------------------------------
+\begin{document}
+\maketitle
+\newpage
+\vspace{-0.5in}
+\centerline{\bf{\large  Título de} }
+\centerline{\bf{\large  Tesis}} % Se usa esta linea si el titulo es muy largo y se requieren dos lineas para escribirlo
+
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1ex plus 0.5ex minus 0.2ex} % reduce el espacio entre filas
+
+
+\tableofcontents
+
+%-----------------------------------------------------------------------------
+\section{Información general}
+\textbf{Título: Modelos lineales generalizados mixtos con estimación bayesiana y componentes aleatorios suavizados con enfoque Data Science} 
+\newline
+
+$\begin{array}{llll}
+\textbf{Estudiante:} & \quad \textsf{Nombre estudiante}\\
+\textbf{Correo-e:} & \quad \textrm{correo electrónico estudiante}\\
+\textbf{Director:} & \quad \textsf{Nombre Asesor}\\
+& \quad \textsf{Profesor Asociado o la categoría del profe}\\
+& \quad \textsf{Escuela de Estadística}\\
+\textbf{Correo-e:} & \quad \textrm{Correo electrónico asesor}
+\end{array}$
+
+%-----------------------------------------------------------------------------
+\section{Resumen ejecutivo}
+Este trabajo de Tesis de Maestría, consiste en la elaboración de ... bla bla bla.
+
+{\slshape \textbf{Palabras claves:} Se ingresan 4-6 palabras clave} 
+
+%-----------------------------------------------------------------------------
+\section{Planteamiento de problema}
+
+
+%-----------------------------------------------------------------------------
+\section{Estructura de los datos}
+
+%-----------------------------------------------------------------------------
+\subsection{Objetivos}
+
+%-----------------------------------------------------------------------------
+\subsubsection{Objetivo general}
+
+%-----------------------------------------------------------------------------
+\subsubsection{Objetivos específicos}
+
+%-----------------------------------------------------------------------------
+\section{Marco teórico del problema propuesto}
+
+%-----------------------------------------------------------------------------
+\subsection{Subsección del marco teórico} % Por si se necesita
+Las ecuaciones se deben nombrar con label para luego poder citarlas y que los números aparezcan en forma automática. En la expresión \eqref{eq1} se presenta el área de una figura geométrica conocida.
+
+\begin{equation} \label{eq1}
+\begin{split}
+A & = \frac{\pi r^2}{2} \\
+& = \frac{1}{2} \pi r^2
+\end{split}
+\end{equation}
+
+%-----------------------------------------------------------------------------
+\subsection{Otra subsección del marco teórico} % Por si se necesita
+The beautiful equation \eqref{eu_eqn} is known as the Euler equation.
+
+\begin{equation} \label{eu_eqn}
+e^{\pi i} - 1 = 0
+\end{equation}
+
+Para crear una ecuación que se extiende por más de una linea se debe usar el ambiente multline. Se debe insertar una doble diagonal invertida para establecer el punto en que la ecuación será separada. La primera parte estará alineada a la izquierda mientras que la otra parte se mostrará en la siguiente línea y será alineada a la derecha.
+
+\begin{multline*}
+p(x) = 3x^6 + 14x^5y + 590x^4y^2 + 19x^3y^3 + 125x^5y^8 - 23x^3y^5\\ 
+- 12x^2y^4 - 12xy^5 + 2y^6 - a^3b^3
+\end{multline*}
+
+Si hay varias ecuaciones que deben ser alineadas verticalmente, el ambiente align se encarga de ello:
+
+\begin{align*} 
+2x - 5y &=  8 \\ 
+3x + 9y &=  -12
+\end{align*}
+
+Como se mencionó con anterioridad, el signo \& determina los puntos de alineación de las ecuaciones. Veamos un ejemplo un poco más complejo:
+
+\begin{align*}
+x&=y           &  w &=z              &  a&=b+c\\
+2x&=-y         &  3w&=\frac{1}{2}z   &  a&=b\\
+-4 + 5x&=2+y   &  w+2&=-1+w          &  ab&=cb
+\end{align*}
+
+Si tan solo necesitas mostrar una serie de ecuaciones consecutivas, centradas y sin ninguna alineación, usa el ambiente gather. El truco del asterisco para habilitar/deshabilitar la enumeración de ecuaciones también funciona aquí.
+
+\begin{gather*} 
+2x - 5y =  8 \\ 
+3x^2 + 9y =  3a + c
+\end{gather*}
+%-----------------------------------------------------------------------------
+\section{Metodología propuesta}
+
+%-----------------------------------------------------------------------------
+\section{Manejo de las \textcolor{red}{referencias}}
+En el anteproyecto y en la tesis las referencias se deben manejar usando natbib. A continuación ejemplos de como escribir para que las referencias aparezcan.
+
+\begin{itemize}
+	\item \verb|\citet{grilli2014}| $\longrightarrow$ \citet{grilli2014}. \\
+	\item \verb|\citep{grilli2014}| $\longrightarrow$ \citep{grilli2014}. \\
+	\item \verb|\citet[chap. 2]{grilli2014}| $\longrightarrow$ \citet[chap. 2]{grilli2014}. \\
+	\item \verb|\citep[chap. 2]{grilli2014}| $\longrightarrow$ \citep[chap. 2]{grilli2014}. \\
+	\item \verb|\citet*{grilli2014}| $\longrightarrow$ \citet{grilli2014}. \\
+	\item \verb|\citep{grilli2014}| $\longrightarrow$ \citep{grilli2014}. \\
+\end{itemize}
+
+En el archivo auxiliar bibliografia.bib hay otras referencias y ellas son \citet{softwareR} y \citet{natbib}.
+
+Observe que Latex se encarga de colocar en la sección de referencias las obras que usted citó, eso le \textcolor{red}{ahorrará} muchísimo tiempo.
+%-----------------------------------------------------------------------------
+\section{Cronograma}
+Aquí se coloca el cronograma.
+
+	\begin{center}
+		\begin{tabular}{lllllllllll}
+			\hline
+			\multicolumn{1}{c}{\multirow{2}{*}{\textbf{Cronograma de actividades}}} & \multicolumn{10}{c}{\textbf{Meses}}  \\  
+			\multicolumn{1}{c}{} & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 \\ \hline
+			Desarrollo del marco teórico & X & X & X & X & & & & & &  \\ 
+			Revisión bibliográfica & X & X & X & X & X & X & & & &  \\ 
+			Análisis descriptivo y desarrollo analítico & & & X & X & X & X & X & & &\\ 
+			Estimación & & & & X & X & X & X & & &  \\ 
+			Análisis de resultados & & & & & & X & X & & &  \\ 	
+			Conclusiones & & & & & & & & X & &  \\ 
+			Organización y redacción & & & X & X & X & X & X & X & &  \\ 
+			Redacción del informe final & & & & & & & & X & X & X \\
+			Escritura del \textcolor{red}{artículo} de divulgación & & & & & & & & & & X \\\hline
+			
+		\end{tabular}
+	\end{center}
+
+\textcolor{blue}{Revisar que los tiempos estén acordes, revisar las precedencias y todos los detalles}.
+
+%-----------------------------------------------------------------------------
+\section{Compromisos}
+Aquí van los compromisos.
+
+\begin{itemize}
+	\item Compromiso 1
+	\item Compromiso 2
+	\item Compromiso 3
+	\item No olvide comprometerse con el \textcolor{blue}{artículo}, es lo más importante.
+\end{itemize}
+
+%-----------------------------------------------------------------------------
+\newpage
+\bibliographystyle{myapalike}
+\bibliography{bibliografia} 
+
+%-----------------------------------------------------------------------------
+\appendix
+\section{Apéndice}
+\subsection{Glosario}
+Las definiciones aquí presentados se definen en base a conceptos de interés
+
+\textbf{Ejemplo1 -} Definición de ejemplo1.
+
+\textbf{Ejemplo2 -} Definición de ejemplo2.
+
+%-----------------------------------------------------------------------------
+\subsection{Apéndice 2} % Por si se necesita otro apendice
+
+
+%-----------------------------------------------------------------------------
+\end{document}
+%-----------------------------------------------------------------------------

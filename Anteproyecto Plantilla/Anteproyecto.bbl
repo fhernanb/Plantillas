@@ -1,0 +1,19 @@
+\begin{thebibliography}{}
+
+\bibitem[Grilli et~al., 2014]{grilli2014}
+Grilli, L., Iannario, M., Piccolo, D., \& Rampichini, C. (2014).
+\newblock Latent class cub models.
+\newblock {\em Advances in Data Analysis and Classification}, 8(1):105--119.
+
+\bibitem[Merkel, 2017]{natbib}
+Merkel, S. (2017).
+\newblock Reference sheet for natbib usage.
+\newblock \url{http://merkel.texture.rocks/Latex/natbib.php/} [Accessed:
+  Whenever].
+
+\bibitem[{R Core Team}, 1876]{softwareR}
+{R Core Team} (1876).
+\newblock {\em R: A Language and Environment for Statistical Computing}.
+\newblock R Foundation for Statistical Computing, Vienna, Austria.
+
+\end{thebibliography}
