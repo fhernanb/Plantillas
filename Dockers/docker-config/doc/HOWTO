@@ -1,0 +1,10 @@
+How to debug a dockerfiles build?
+==================================
+
+1. Run the start image manually, execute the build commands.
+
+2. For failed container:
+   > docker commint <container>     # turn container to image
+   > docker run -it <image> bash
+
+3. Same but with mounted docker-config as volume in order to update fixed files in the container.

@@ -1,0 +1,54 @@
+// Syntax of the Jenkinsfile can be found:
+// https://jenkins.io/doc/book/pipeline/syntax/
+
+// Jenkins pipeline to build libraries using cmakefiles subdirectories
+
+// which debug libs to build
+def debug_libs = [
+    'mpich',
+    'petsc',
+    'yamlcpp',
+    'armadillo',
+    'bddcml',
+]
+
+// which release libs to build
+def release_libs = [
+    'mpich',
+    'petsc',
+    'yamlcpp',
+    'armadillo',
+    'bddcml',
+]
+
+// start of the pipeline script
+pipeline {
+    // job will by executed by ci2runner
+    agent { node { label 'ci2runner' } }
+
+    stages {
+        stage('Build DEBUG') {
+            steps {
+              dir('cmakefiles') {
+                  script {
+                      for (lib in debug_libs) {
+                            sh "make IMAGE=flow123d/base-gnu-env BUILD_TYPE=Debug ${lib}"
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Build RELEASE') {
+            steps {
+              dir('cmakefiles') {
+                  script {
+                      for (lib in release_libs) {
+                            sh "make IMAGE=flow123d/base-gnu-env BUILD_TYPE=Release ${lib}"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css')}}">
+</head>
+<body>
+<header id="nav">
+    <a id="logo" href="/"></a>
+
+    <div class="navholder">
+        <nav class="links">
+            <a href="/active">类别</a>
+            <a href="/recent">最近</a>
+            <a href="/comments">评论</a>
+            <a href="/search">搜索</a>
+            <a class="corner" href="/login">登录</a>
+        </nav>
+    </div>
+</header>
+
+<div id="inside">
+    <ol class="stories list">
+        {% for repo in repos %}
+        <li id="story_8srhfp" class="story">
+            <div class="story_liner h-entry">
+                <div class="voters">
+                    <a class="upvoter" href="/login"></a>
+                    <div class="score">49</div>
+                </div>
+                <div class="details">
+                    <span class="link">
+                        <a href="{{ repo.url }}">{{ repo.title }}</a>
+                    </span>
+                    <span class="tags">
+                        {% for tag in repo.tags %}
+                            <a class="tag tag_release" href="/t/{{ tag.tid }}">{{ tag.name }}</a>
+                        {% endfor %}
+                    </span>
+                    <a class="domain" href="{{ repo.url }}">{{ repo.name }}</a>
+                    <div class="byline">
+                        <a href="/u/{{ repo.user.uid }}"><img src="{{ repo.user.avatar }}" class="avatar" alt="akselmo avatar" loading="lazy" decoding="async" width="16" height="16"></a>
+                        <a href="/u/{{ repo.user.uid }}" class="u-author h-card new_user">{{ repo.user.nickname }}</a>
+                        发布于
+                        <span title="2022-05-04 08:15:07 -0500">20 小时前</span>
+                        |
+                        <span>
+                            <label for="archive_8srhfp">开源项目</label>
+                        </span>
+                        <span class="comments_label">
+                            |
+                        <a href="/">评论 {{ repo.comment_total }}</a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <a href="/s/8srhfp/microsoft_3d_movie_maker_is_now_open"
+               class="mobile_comments " style="display: none;">
+                <span>{{ repo.comment_total }}</span>
+            </a>
+            {% endfor %}
+        </li>
+    </ol>
+    <div class="mortag_is_mediaelink"></div>
+</div>
+
+
+</body>
+</html>

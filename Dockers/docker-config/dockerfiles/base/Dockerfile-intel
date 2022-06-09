@@ -1,0 +1,98 @@
+# BASE Dockerfile for running flow123d
+FROM ubuntu:20.04
+ARG images_version
+
+MAINTAINER Jan Březina, Jan Hybš
+
+ENV LANG C.UTF-8
+
+# disable interactive tzdata config during apt install
+ENV DEBIAN_FRONTEND="noninteractive" TZ="Europe" 
+
+#(??)
+# OMPI_CC=${DEFAULT_MPICC} OMPI_CXX=${DEFAULT_MPICXX}
+
+# fix bash (??)
+RUN rm /bin/sh && ln -s /bin/bash /bin/sh
+
+# install basic set of tools
+RUN apt-get update && apt-get install -y \
+    sudo \    
+    gosu \
+    wget  \    
+    bash-completion \
+    apt-utils \         
+    nano \
+    less \
+    tzdata \
+    perl \
+    python3.9 \
+    python3-pip \    
+    libboost-program-options1.71.0 \
+    libboost-serialization1.71.0 \
+    libboost-regex1.71.0 \
+    libboost-filesystem1.71.0 \    
+    lib32z1 \
+    libpugixml1v5 \
+    libpython3.9 \
+    python3-numpy \
+    python3-venv \
+    libxinerama-dev \    
+    libxcursor-dev \
+    libglu1-mesa \
+    libxft-dev \
+    gnupg2
+
+# add intel repository
+RUN wget https://apt.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB && \
+  apt-key add GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB && \
+  rm GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB && \
+  echo "deb https://apt.repos.intel.com/oneapi all main" | tee /etc/apt/sources.list.d/oneAPI.list
+
+# Basic cmd line tools and APT package manager
+#   sudo \    
+#   gosu \
+#   wget  \    
+#   bash-completion \
+#   apt-utils \         
+#   nano \
+#   less \
+#   tzdata \    # necessary to avoid problems with time zone of installed packages
+
+# Necessary libraries and tools for the production image (available in development images as well)
+#     perl \      # necessary for ndiff
+#     python3.7 \
+#     python3-pip \    
+#     libboost-program-options1.71.0 \
+#     libboost-serialization1.71.0 \
+#     libboost-regex1.71.0 \
+#     libboost-filesystem1.71.0 \    
+#     libblas3 \
+#     liblapack3 \
+#     lib32z1 \
+#     libpugixml1v5 \
+#     libpython3.7 \
+#     python3-vtk9    # Mainly for ndiff replacement, but usefull in general for manipulation with outputs. Trying to not include whole paraview.
+
+RUN pip3 install \
+    pyyaml \
+    simplejson \
+    psutil \
+    loguru \
+    gmsh
+
+
+
+# Script used later in interactive images as the entry point.
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod 755 /usr/local/bin/entrypoint.sh \
+    && echo ${BUILD_TYPE} ${images_version} >/.dockerversion
+    
+#RUN ls -l /usr/local/bin/entrypoint.sh
+
+
+# set entrypoint script
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+
+# and default argument
+CMD ["/bin/bash"]

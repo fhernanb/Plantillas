@@ -1,0 +1,204 @@
+#!/bin/bash
+# This script can personalize flow123d images (adding user/group, adding keys, setting up git)
+# After the process is done, running
+#   ./dockerrun
+# will start a container and mount your $HOME (/home/jan/) to work (/work/jan/)
+# The docker images are altered via Dockerfile. Now by default when you start a container:
+#   $> docker run --rm -ti flow123d/flow-dev-gnu-dbg:user
+#   $> jan-hybs@flow $>
+# you will became current user
+
+# usage:
+# ./dockerrun <action> <dbg|rel>
+# action can be:
+#   clean       - clean custom work images
+#   remove-old  - will prompt to remove untagged images and exited containers
+#   update      - will download images from the docker hub
+#   run         - (defaul) will start a custom container
+#   flow123d    - will start a custom container and executed given arguments
+#                 note that frist TWO arguments are processed by this script
+#                 the rest is part along
+
+if [[ $DEBUG -eq 1 ]]; then
+	set -x
+fi
+
+
+CWD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+# get CWD as realtive path to current directory, which enables to build image on Windows
+CWD=$(realpath --relative-to=$(pwd) $CWD)
+
+gid=$(id -g)
+uid=$(id -u)
+uname=$(whoami)
+git_email=$(git config --global user.email)
+git_uname=$(git config --global user.name)
+
+action=${1:-run}
+shift
+version=${1:-dbg}
+shift
+
+work_image_intel=flow123d/flow-dev-intel-$version:user
+flow123d_images="flow-dev-intel-dbg flow-dev-intel-rel install-intel flow-dev-gnu-dbg flow-dev-gnu-rel install-gnu"
+work_image_gnu=flow123d/flow-dev-gnu-$version:user
+
+
+function image_exist() {
+  did=$(docker images $1 -q)
+  if [[ -z $did ]]; then
+    return 1
+  else
+    return 0
+  fi
+}
+
+function configure_files {
+  docker_image_intel=${1:-flow-dev-intel-dbg}
+  docker_image_gnu=${1:-flow-dev-gnu-dbg}
+
+  sed -e "s/@gid@/$gid/g" \
+      -e "s/@uid@/$uid/g" \
+      -e "s/@uname@/$uname/g" \
+      -e "s/@image_tag@/$image_tag/g" \
+      -e "s/@docker_image_intel@/$docker_image_intel/g" \
+      -e "s/@docker_image_gnu@/$docker_image_gnu/g" \
+      -e "s/@git_email@/$git_email/g" \
+      -e "s/@git_uname@/$git_uname/g" \
+      "$CWD/templates/setup.template.sh" > "$CWD/dockerfile/setup.sh"
+  sed -e "s/@gid@/$gid/g" \
+      -e "s/@uid@/$uid/g" \
+      -e "s/@uname@/$uname/g" \
+      -e "s/@image_tag@/$image_tag/g" \
+      -e "s/@docker_image_intel@/$docker_image_intel/g" \
+      -e "s/@docker_image_gnu@/$docker_image_gnu/g" \
+      -e "s/@git_email@/$git_email/g" \
+      -e "s/@git_uname@/$git_uname/g" \
+      "$CWD/templates/Dockerfile.template" > "$CWD/dockerfile/Dockerfile"
+  chmod +x "$CWD/dockerfile/setup.sh"
+}
+
+function alter_image() {
+  image=$1
+
+  # create dummy config files
+  mkdir -p "$CWD/dockerfile/.ssh/"
+  touch "$CWD/dockerfile/.gitconfig"
+  touch "$CWD/dockerfile/.ssh/known_hosts"
+
+  configure_files $image
+  cp -r "$HOME/.ssh/ $CWD/dockerfile/"
+  cp -r "$HOME/.gitconfig" "$CWD/dockerfile/"
+  docker rm -f flow123d/$image:user
+  docker build --tag flow123d/$image:user --no-cache=true "$CWD/dockerfile"
+  rm -rf "$CWD/dockerfile/.ssh"
+  rm -rf "$CWD/dockerfile/.gitconfig"
+}
+
+function make_work_images() {
+  echo '----------------------------------------------------'
+  echo "Creating developer images for user $uname ($uid:$gid)"
+
+  for image in $flow123d_images
+  do
+      if image_exist "flow123d/$image:latest"; then
+        if image_exist "flow123d/$image:user"; then
+
+          if [[ $OVERRIDE -eq 1 ]]; then
+            echo '----------------------------------------------------'
+            echo "altering image $image"
+            alter_image $image
+          else
+            echo "image already personalized"
+          fi
+
+        else
+          echo '----------------------------------------------------'
+          echo "altering image $image"
+          alter_image $image
+        fi
+      fi
+  done
+}
+
+function remove_custom_images() {
+  for image in $flow123d_images
+  do
+    docker rmi -f flow123d/$image:user
+  done
+}
+
+function update_images() {
+  for image in $flow123d_images
+  do
+    docker pull flow123d/$image
+  done
+}
+
+
+function remove_old() {
+  # detect exited containers
+  # ------------------------------------------------------------------------------
+  EXITED=$(docker ps -q -f status=exited)
+  if [[ -n $EXITED ]]; then
+      echo "--------------------------------------------"
+      echo "Note: You have exited containers present. Exited containers are usually"
+      echo "      left overs which can be safely removed."
+      echo "Containers are: "
+      docker images | grep "^<none>"
+
+      if [[ $YES_TO_ALL -eq 1 ]]; then
+          docker rm -f $EXITED
+      else
+          read -p "Would you like to remove them? " -n 1 -r
+          echo
+          if [[ $REPLY =~ ^[Yy]$ ]]
+          then
+              docker rm -f $EXITED
+          fi
+      fi
+      echo "--------------------------------------------"
+  fi
+
+  # detect untagged images
+  # ------------------------------------------------------------------------------
+  UNNAMED=$(docker images | grep "^<none>" | awk "{print \$3}")
+  if [[ -n $UNNAMED ]]; then
+      echo "--------------------------------------------"
+      echo "Note: You have untagged images present, this probably occured when images"
+      echo "      were reinstalled. Even though these images can still be used it is "
+      echo "      recommended to simply delete them."
+      echo "Images are: "
+      docker images | grep "^<none>"
+
+      if [[ $YES_TO_ALL -eq 1 ]]; then
+          docker rmi -f $UNNAMED
+      else
+          read -p "Would you like to remove them? " -n 1 -r
+          echo
+          if [[ $REPLY =~ ^[Yy]$ ]]
+          then
+              docker rmi -f $UNNAMED
+          fi
+      fi
+      echo "--------------------------------------------"
+  fi
+}
+
+
+mkdir -p $CWD/dockerfile
+
+if [ "$action" == "clean" ]; then
+    remove_custom_images
+elif [ "$action" == "update" ]; then
+    update_images
+    make_work_images
+elif [ "$action" == "flow123d" ]; then
+    docker run  --rm -v "$HOME":"$HOME" -w `pwd` $work_image_intel bash -c "${CWD}/../../flow123d $*"
+    docker run  --rm -v "$HOME":"$HOME" -w `pwd` $work_image_gnu bash -c "${CWD}/../../flow123d $*"
+elif [ "$action" == "run" ]; then
+    docker run --rm -it -w "/work/$uname" -v "$HOME":"/work/$uname" $work_image_intel
+    docker run --rm -it -w "/work/$uname" -v "$HOME":"/work/$uname" $work_image_gnu
+elif [ "$action" == "remove-old" ]; then
+    remove_old
+fi
