@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- INCLUDING BOOTSTRAP,FONT-AWESOME,BOOTSTRAP-SOCIAL RESPECTIVELY -->
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="node_modules/bootstrap-social/bootstrap-social.css">
+    <link rel="stylesheet" href="style.css">
+    <title>The best food delivery app</title>
+</head>
+
+<body>
+    <!-- LOGIN MODAL -->
+    <div id="loginmodal" class="modal fade " role="dialog">
+        <div class="modal-dialog modal-lg" role="content">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Sign-In</h4>
+                    <button type="button" class="close" data-dismiss="modal">
+                        &times;
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-row">
+                            <div class="form-group col-sm-4">
+                                <label class="sr-only" for="exampleInputEmail3">Email address</label>
+                                <input type="email" class="form-control form-control-sm mr-1" id="exampleInputEmail3"
+                                    placeholder="Enter email">
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <label class="sr-only" for="exampleInputPassword3">Password</label>
+                                <input type="password" class="form-control form-control-sm mr-1"
+                                    id="exampleInputPassword3" placeholder="Password">
+                            </div>
+                            <div class="col-sm-auto">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox">
+                                    <label class="form-check-label"> Remember me
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <button type="button" class="btn btn-secondary btn-sm ml-auto"
+                                data-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary btn-sm ml-1">Sign in</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div></div>
+        </div>
+    </div>
+    <!-- NAVBAR CODE -->
+    <navbar class="navbar navbar-dark navbar-expand-sm fixed-top">
+        <div class="container">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#Navbar">
+                <span class="navbar-toggler-icon"></span>
+
+            </button>
+            <a class="navbar-brand" href="./index.html"><img src="img/logo.jpg " height="40" width="50" alt=""></a>
+            <div class="collapse navbar-collapse " id="Navbar">
+
+                <img class="nav" src="" alt="">
+                <ul class="list-unstyled navbar-nav mr-auto">
+                    <li class="nav-item"><a class="nav-link fa fa-home" href="./index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link fa fa-info" href="#">About</a></li>
+                    <li class="nav-item"><a class="nav-link fa fa-list" href="./menu.html">Order</a></li>
+                    <li class="nav-item"><a class="nav-link fa fa-address-card" href="./contactus.html">Contact</a>
+                    </li>
+                </ul>
+                <span class="btn fa fa-sign-in" data-toggle="modal" data-target="#loginmodal">Login</span>
+            </div>
+        </div>
+    </navbar>
+    <!-- HEADER CODE -->
+    <div class="jumbotron">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-12 col-sm-6">
+                    <h1>About Us</h1>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    <!-- MAIN BODY CODE -->
+    <div class="container">
+
+        <div class="row mt-5 mb-5">
+            <div class="col-12 col-sm-6">
+                <h1>Our History</h1>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, debitis cum? Officiis iure ab sint!
+                    Provident voluptas distinctio ab eaque velit amet adipisci quas libero accusantium quam dolorem, eos
+                    ratione quia delectus incidunt assumenda. Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                    Animi quam, recusandae fuga nostrum, nam eius non aperiam quibusdam totam culpa assumenda
+                    dignissimos itaque voluptatem?</p>
+
+            </div>
+            <!-- AT A GLANCE CARD -->
+            <div class="col-12 col-sm-6">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h3>At a glance</h3>
+                    </div>
+                    <div class="card-body">
+                        <dl class="row">
+                            <dd class="col-6 font-weight-bold">Number of employees:</dd>
+                            <dl class="col-6 ">100</dl>
+                            <dd class="col-6 font-weight-bold">Number of orders served</dd>
+                            <dl class="col-6">10000</dl>
+                            <dd class="col-6 font-weight-bold">Number of restraunts</dd>
+                            <dl class="col-6">100</dl>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+            <!-- TAB'S CODE -->
+            <div class="row row-content align-items-center">
+                <div class="col-12 col-sm-12">
+                    <h2>Corporate Leadership</h2>
+
+                    <div id="accordian">
+                        <div class="card">
+                            <div class="card-header" role="tab" id="tharunhead">
+                                <h3 class="mb-0">
+                                    <a data-toggle="collapse" data-target="#tharun">
+                                        Bhukya Tharun <small>Chief Epicurious Officer</small>
+                                    </a>
+                                </h3>
+                            </div>
+                            <div class="collapse show" id="tharun" data-parent="#accordion">
+                                <div class="card-body">
+                                    <p class="d-none d-sm-block">Our CFO, Tharun, as he is affectionately referred to by
+                                        his
+                                        colleagues,
+                                        comes from a long established family tradition in farming and produce. His
+                                        experiences
+                                        growing
+                                        up on a farm in the Australian outback gave him great appreciation for varieties
+                                        of food
+                                        sources. As he puts it in his own words, <em>Everything that runs, wins, and
+                                            everything that
+                                            stays, pays!</em></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header" role="tab" id="vamshihead">
+                                <h3 class="mb-0">
+                                    <a class="collapsed" data-toggle="collapse" data-target="#vamshi">
+                                        Vamshi Ponugoti <small>Chief Food Officer</small>
+                                    </a>
+                                </h3>
+                            </div>
+                            <div class="collapse" id="vamshi" data-parent="#accordion">
+                                <div class="card-body">
+                                    <p class="d-none d-sm-block">Blessed with the most discerning gustatory sense,
+                                        Agumbe, our CTO,
+                                        personally ensures that every dish that we serve meets his exacting tastes. Our
+                                        chefs dread
+                                        the
+                                        tongue lashing that ensues if their dish does not meet his exacting standards.
+                                        He lives by
+                                        his
+                                        motto, <em>You click only if you survive my lick.</em></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header" role="tab" id="yashwanthhead">
+                            <h3 class="mb-0">
+                                <a class="collapsed" data-toggle="collapse" data-target="#yashwanth">
+                                    Yahswanth Nalamasa <small>Chief Taste Officer</small>
+                                </a>
+                            </h3>
+                        </div>
+                        <div class="collapse" id="yashwanth" data-parent="#accordion">
+                            <div class="card-body">
+                                <p class="d-none d-sm-block">Award winning three-star Michelin chef with wide
+                                    International
+                                    experience having worked closely with whos-who in the culinary world, he specializes
+                                    in
+                                    creating
+                                    mouthwatering Indo-Italian fusion experiences. He says, <em>Put together the
+                                        cuisines from
+                                        the
+                                        two craziest cultures, and you get a winning hit! Amma Mia!</em></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header" role="tab" id="seethahead">
+                            <h3 class="mb-0">
+                                <a class="collapsed" data-toggle="collapse" data-target="#seetha">
+                                    Oruganti Seetharam <small>Executive Chef</small>
+                                </a>
+                            </h3>
+                        </div>
+                        <div class="collapse" id="seetha" data-parent="#accordion">
+                            <div class="card-body">
+                                <p class="d-none d-sm-block">Award winning three-star Michelin chef with wide
+                                    International
+                                    experience having worked closely with whos-who in the culinary world, he specializes
+                                    in
+                                    creating
+                                    mouthwatering Indo-Italian fusion experiences. He says, <em>Put together the
+                                        cuisines from
+                                        the
+                                        two craziest cultures, and you get a winning hit! Amma Mia!</em></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- FOOTER CODE -->
+    <footer class="footer">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12 col-sm-4">
+                    <h2>Contact Us</h2>
+                    <ul class="list-unstyled">
+                        <li><i class="fa fa-phone"></i>1234567</li>
+                        <li><a class="fa fa-envelope" href="email@gmail.com" style="color:white">email@gmail.com</a>
+                        </li>
+
+                    </ul>
+                </div>
+
+
+                <div class="col-12 col-sm-4">
+                    <h2>Address</h2>
+                    <p>H.NO 123/456</p>
+                    <p>Heaven street</p>
+                    <p>London</p>
+                </div>
+                <div class="col-12 col-sm-4">
+                    <a class="btn btn-social-icon btn-facebook" href="https://facebook.com" target="_blank"><i
+                            class="fa fa-facebook"></i></a>
+                    <a class="btn btn-social-icon btn-twitter" href="https://twitter.com" target="_blank"><i
+                            class="fa fa-twitter"></i></a>
+                    <a class="btn btn-social-icon btn-linkedin" href="https://linkedin.com" target="_blank"><i
+                            class="fa fa-linkedin"></i></a>
+                    <a class="btn btn-social-icon btn-github" href="https://github.com/sainikhil1605" target="_blank"><i
+                            class="fa fa-github"></i></a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <p>©Copyright 2020 Slack</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- INCLUDING JQUERY,POPPER AND BOOTSTRAPS'S JAVASCRIPT FILES RESPECTIVELY-->
+    <script src="node_modules/jquery/dist/jquery.slim.min.js"></script>
+    <script src="node_modules/popper.js/dist/umd/popper.min.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+</body>
+
+</html>
