@@ -1,0 +1,246 @@
+#!/bin/bash
+# author: Jan Hybs
+# This script will alter specific docker images by adding curent user in them
+
+# get absolute dir in which is this script stored
+CWD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+DOCKERFILES=$CWD/../dockerfiles
+
+# default config
+YES_TO_ALL=0
+SKIP_BUILD=0
+DO_NOT_OVERRIDE=0
+REMOVE_ALL=0
+GROUP_ID=`id -g`
+USER_ID=`id -u`
+USER_NAME=`whoami`
+IMAGES="flow123d/flow-dev-gnu-dbg flow123d/flow-dev-gnu-rel flow123d/install-gnu flow123d/flow-dev-intel-dbg flow123d/flow-dev-intel-rel flow123d/install-intel"
+
+
+function usage {
+    echo "Configure script which will install all docker images"
+    echo "and modifies them for the current user. Modifications to the image are"
+    echo "in a template file template/setup.template.sh"
+    echo ""
+    echo "Current template file creates system user and system group in docker image."
+    echo "New docker image will have suffix 'user'"
+    echo ""
+    echo "After image modification, the script will check docker images and containers."
+    echo "If any image or container does not have a tag, configure script can remove them"
+    echo "You will be prompted"
+    echo ""
+    echo "By default all docker images which are part of Flow123d are installed"
+    echo "Options:"
+    echo "  -s|--skip-build         Will not install any images, will only"
+    echo "                          personalise them."
+    echo "  -i|--images             Specify which images will be altered, by default"
+    echo "                          all images will be altered. Value is list with"
+    echo "                          space as separator"
+    echo "  -n|--user-name          Force name value instead of \`whoami\`"
+    echo "                          current value is '`whoami`'"
+    echo "  -u|--uid                Force user id value instead of \`id -u\`"
+    echo "                          current value is '`id -u`'"
+    echo "  -g|--gid                Force group id value instead of \`id -g\`"
+    echo "                          current value is '`id -g`'"
+    echo "  -d|--do-not-override    If set will not override modified images (with)"
+    echo "                          suffix 'user' will skip modification for"
+    echo "                          the current image"
+    echo "  -r|--remove-all         Will search for any <none> images and containers"
+    echo "                          and propose their removal"
+    echo "  -y|--yes-to-all         Will remove any <none> images and containers"
+    echo "                          without asking"
+    echo "  -h|--help               Print this help message"
+    exit
+}
+
+while [[ $# -gt 0 ]]
+do
+key="$1"
+case $key in
+    -n|--user-name)
+    USER_NAME="$2"
+    shift
+    ;;
+    -u|--uid)
+    USER_ID="$2"
+    shift
+    ;;
+    -g|--gid)
+    GROUP_ID="$2"
+    shift
+    ;;
+    -i|--images)
+    IMAGES="$2"
+    shift
+    ;;
+    -d|--do-not-override)
+    DO_NOT_OVERRIDE=1
+    ;;
+    -y|--yes-to-all)
+    YES_TO_ALL=1
+    ;;
+    -s|--skip-build)
+    SKIP_BUILD=1
+    ;;
+    -r|--remove-all)
+    REMOVE_ALL=1
+    ;;
+    -h|--help)
+    usage
+    exit
+    ;;
+    *)
+    echo "Invalid option: $1"
+    usage
+    exit
+    ;;
+esac
+shift
+done
+
+
+function build_images {
+    cd $DOCKERFILES
+    echo "Building images..."
+    echo "============================================"
+
+    docker build --tag flow123d/base-intel               base-intel
+    docker build --tag flow123d/base-build-intel         base-build-intel
+    docker build --tag flow123d/flow-dev-intel-dbg  flow-dev-intel-dbg
+    docker build --tag flow123d/flow-dev-intel-rel  flow-dev-intel-rel
+    docker build --tag flow123d/install-intel            install-intel
+
+    docker build --tag flow123d/base-gnu               base-gnu
+    docker build --tag flow123d/base-build-gnu         base-build-gnu
+    docker build --tag flow123d/flow-dev-gnu-dbg  flow-dev-gnu-dbg
+    docker build --tag flow123d/flow-dev-gnu-rel  flow-dev-gnu-rel
+    docker build --tag flow123d/install-gnu            install-gnu
+
+    echo "============================================"
+    echo "Images built"
+    echo ""
+}
+
+function create_setup_script {
+    cp "$CWD/templates/setup.template.sh" "$CWD/templates/setup.sh"
+    # going through script several times since some argument may be on the same line
+    for V in 1 2 3
+    do
+        sed -e "s/@GROUP_ID@/$GROUP_ID/" \
+            -e "s/@USER_ID@/$USER_ID/" \
+            -e "s/@USER_NAME@/$USER_NAME/" \
+            -e "s/@IMAGE_TAG@/$IMAGE_TAG/" \
+            "$CWD/templates/setup.sh" > "$CWD/templates/setup_tmp.sh"
+        mv "$CWD/templates/setup_tmp.sh" "$CWD/templates/setup.sh"
+    done
+    chmod +x "$CWD/templates/setup.sh"
+}
+
+function alter_image {
+    echo "--------------------------------------------"
+    echo "Altering image $1"
+    echo "--------------------------------------------"
+    CIDFILE="$CWD/cid.file.tmp"
+    rm -rf "$CIDFILE"
+    docker run --privileged -di --cidfile "$CIDFILE" $1 bash
+    docker_cid=`cat "$CIDFILE"`
+    docker cp   "$CWD/templates/setup.sh" $docker_cid:/tmp/setup.sh
+    docker exec $docker_cid //tmp/setup.sh # double slash for mingw to not convert path to windows
+    # create new image and stop container
+    docker commit $docker_cid $1:user
+    docker stop $docker_cid
+    docker rm   $docker_cid
+    rm -rf "$CIDFILE"
+    echo "--------------------------------------------"
+    # echo "Image created. To use this image use full image name: $1:user"
+    # echo "To be automatically user $USER_NAME, use one of the following syntax:"
+    # echo "    docker run -ti --rm -u \$(id -u):\$(id -g) $1:user"
+    # echo "    docker run -ti --rm -u $(id -u):$(id -g) $1:user"
+    # echo ""
+}
+
+
+# build images
+# ------------------------------------------------------------------------------
+if [[ $SKIP_BUILD -eq 0 ]]; then
+    build_images
+fi
+
+
+# create setup script
+# ------------------------------------------------------------------------------
+create_setup_script
+
+
+# install custom images 
+# ------------------------------------------------------------------------------
+if [[ $DO_NOT_OVERRIDE -eq 1 ]]; then
+    echo 'check for images'
+    for IMAGE in $IMAGES
+    do
+        RESULT=$(docker images $IMAGE:user -q)
+        if [[ -z $RESULT ]]; then
+            echo "Missing image $IMAGE:user"
+            alter_image $IMAGE
+        else
+            echo "Image $IMAGE:user exists, skipping..."
+        fi
+    done
+else
+    for IMAGE in $IMAGES
+    do
+        alter_image $IMAGE
+    done
+fi
+
+
+if [[ $REMOVE_ALL -eq 1 ]]; then
+    # detect exited containers
+    # ------------------------------------------------------------------------------
+    EXITED=$(docker ps -q -f status=exited)
+    if [[ -n $EXITED ]]; then
+        echo "--------------------------------------------"
+        echo "Note: You have exited containers present. Exited containers are usually"
+        echo "      left overs which can be safely removed."
+        echo "Containers are: "
+        docker images | grep "^<none>"
+        
+        if [[ $YES_TO_ALL -eq 1 ]]; then
+            docker rm -f $EXITED
+        else
+            read -p "Would you like to remove them? " -n 1 -r
+            echo
+            if [[ $REPLY =~ ^[Yy]$ ]]
+            then
+                docker rm -f $EXITED
+            fi
+        fi
+        echo "--------------------------------------------"
+    fi
+
+    # detect untagged images
+    # ------------------------------------------------------------------------------
+    UNNAMED=$(docker images | grep "^<none>" | awk "{print \$3}")
+    if [[ -n $UNNAMED ]]; then
+        echo "--------------------------------------------"
+        echo "Note: You have untagged images present, this probably occured when images"
+        echo "      were reinstalled. Even though these images can still be used it is "
+        echo "      recommended to simply delete them."
+        echo "Images are: "
+        docker images | grep "^<none>"
+        
+        if [[ $YES_TO_ALL -eq 1 ]]; then
+            docker rmi -f $UNNAMED
+        else
+            read -p "Would you like to remove them? " -n 1 -r
+            echo
+            if [[ $REPLY =~ ^[Yy]$ ]]
+            then
+                docker rmi -f $UNNAMED
+            fi
+        fi
+        echo "--------------------------------------------"
+    fi
+fi
+
+docker images

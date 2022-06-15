@@ -1,0 +1,14 @@
+# expcet variables: cc, cc_flags, lib_blas
+
+AR = ar -rvc
+RANLIB = ranlib
+
+
+AR_LIB_SUFFIX = a
+
+# for blopex_serial_double
+LOBPCG_ROOT_DIR =  ../../blopex_abstract
+
+
+LAPACKLIB = 
+BLASLIB =  /usr/lib -lblas -llapack

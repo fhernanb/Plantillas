@@ -1,0 +1,75 @@
+# included vars: petsc_lib, build_dir, blopex_dir
+
+
+
+#*********** Libraries
+# library being created
+BDDCML_ROOT         = $(build_dir)
+BDDCML_LIB_DIR      = $(BDDCML_ROOT)/lib
+LIBBDDCML           = $(BDDCML_LIB_DIR)/libbddcml.a
+
+BDDCML_INCMUMPS    = -I$(petsc_dir)/include   
+BDDCML_LIBMUMPS     = -L$(petsc_dir)/lib -ldmumps -lmumps_common -lpord
+
+BDDCML_INCPARMETIS = # as mumps
+BDDCML_LIBPARMETIS  = -L$(petsc_dir)/lib -lparmetis
+
+BDDCML_INCMETIS = # as mumps
+BDDCML_LIBMETIS  = -L$(petsc_dir)/lib -lmetis
+BDDCML_LIBSCALAPACK = -L$(petsc_dir)/lib -lscalapack
+
+BDDCML_LIBBLACS     = #-L/usr/lib -lblacs-openmpi -lblacsCinit-openmpi -lblacsF77init-openmpi -lblacs-openmpi
+BDDCML_LIBPORD      = # with MUMPS
+BDDCML_LIBBLAS      = -L/opt/intel/oneapi/mkl/latest/lib/intel64 -lmkl_intel_lp64 -lmkl_core -lmkl_sequential
+BDDCML_LIBLAPACK    = 
+
+# BLOPEX build
+BDDCML_BLOPEXDIR = $(blopex_dir)
+BDDCML_INCBLOPEX = \
+   -I$(BDDCML_BLOPEXDIR)/blopex_serial_double/multivector \
+   -I$(BDDCML_BLOPEXDIR)/blopex_serial_double/pcg_multi \
+   -I$(BDDCML_BLOPEXDIR)/blopex_serial_double/matmultivec \
+   -I$(BDDCML_BLOPEXDIR)/blopex_abstract/include
+BDDCML_OBJBLOPEX = \
+   $(BDDCML_BLOPEXDIR)/blopex_serial_double/multivector/multi_vector.o \
+   $(BDDCML_BLOPEXDIR)/blopex_serial_double/pcg_multi/pcg_multi.o \
+   $(BDDCML_BLOPEXDIR)/blopex_serial_double/matmultivec/matmultivec.o
+BDDCML_LIBBLOPEX = -L$(BDDCML_BLOPEXDIR)/blopex_abstract/lib -lBLOPEX
+BDDCML_BLOPEXLINK = $(BDDCML_OBJBLOPEX) $(BDDCML_LIBBLOPEX)
+
+BDDCML_LIBOTHERS    = -lpthread
+
+#*********************************
+# the whole link sequence for BDDC
+#*********************************
+BDDCML_LINK_SEQUENCE = $(LIBBDDCML) $(BDDCML_LIBMUMPS) $(BDDCML_LIBPARMETIS) $(BDDCML_LIBMETIS) $(BDDCML_LIBSCALAPACK) $(BDDCML_LIBBLACS) \
+                       $(BDDCML_LIBPORD) $(BDDCML_LIBLAPACK) $(BDDCML_LIBBLAS) $(BDDCML_BLOPEXLINK) $(BDDCML_LIBOTHERS) 
+BDDCML_INC           = -I$(BDDCML_ROOT)/src -I@FC_MAGLE_INCLUDE@
+
+
+#*********** Compilers
+BDDCML_MPFC = $(mpi_dir)/bin/mpiifort
+BDDCML_MPFFLAGS = $(fc_flags)
+# BDDCML_FC = @BDDCML_Fortran_COMPILER@
+# BDDCML_FFLAGS = @BDDCML_Fortran_FLAGS@
+
+BDDCML_MPCC = $(mpi_dir)/bin/mpiicc
+BDDCML_MPCFLAGS = $(cc_flags)
+# BDDCML_CC = @CMAKE_C_COMPILER@
+# BDDCML_CFLAGS = @PETSC_VAR_CC_FLAGS@
+
+#*********** Library tools
+BDDCML_AR = ar vr
+BDDCML_RANLIB = ranlib
+
+#**********Preprocessor defs for calling Fortran from C (-DAdd_ or -DAdd__ or -DUPPER)
+# We rather use CMake module FortranCInterface to make proper mangling
+# BDDCML_CDEFS   = -DAdd_
+
+#*********** Includes
+# ParMetis
+# Metis
+
+# MUMPS
+#BDDCML_INCMUMPS    = $(BDDCML_INC) @Mumps_INCLUDES@
+

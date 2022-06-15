@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- INCLUDING BOOTSTRAP,FONT-AWESOME,BOOTSTRAP-SOCIAL RESPECTIVELY -->
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="node_modules/bootstrap-social/bootstrap-social.css">
+    <link rel="stylesheet" href="style.css">
+    <title>The best food delivery app</title>
+    <title>Document</title>
+</head>
+<body>
+     <!-- LOGIN MODAL -->
+     <div id="loginmodal" class="modal fade " role="dialog">
+        <div class="modal-dialog modal-lg" role="content">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Sign-In</h4>
+                    <button type="button" class="close" data-dismiss="modal">
+                        &times;
+                    </button>
+                </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-row">
+                                <div class="form-group col-sm-4">
+                                    <label class="sr-only" for="exampleInputEmail3">Email address</label>
+                                    <input type="email" class="form-control form-control-sm mr-1" id="exampleInputEmail3"
+                                        placeholder="Enter email">
+                                </div>
+                                <div class="form-group col-sm-4">
+                                    <label class="sr-only" for="exampleInputPassword3">Password</label>
+                                    <input type="password" class="form-control form-control-sm mr-1"
+                                        id="exampleInputPassword3" placeholder="Password">
+                                </div>
+                                <div class="col-sm-auto">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox">
+                                        <label class="form-check-label"> Remember me
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <button type="button" class="btn btn-secondary btn-sm ml-auto"
+                                    data-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-primary btn-sm ml-1">Sign in</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div></div>
+            </div>
+        </div>
+    </div>
+    <!-- NAVBAR CODE -->
+    <navbar class="navbar navbar-dark navbar-expand-sm fixed-top">
+        <div class="container">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#Navbar">
+                <span class="navbar-toggler-icon"></span>
+
+            </button>
+            <a class="navbar-brand" href="./index.html"><img src="img/logo.jpg " height="40" width="50" alt=""></img></a>
+            <div class="collapse navbar-collapse " id="Navbar">
+
+                <img class="nav" src="" alt="">
+                <ul class="list-unstyled navbar-nav mr-auto">
+                    <li class="nav-item"><a class="nav-link fa fa-home" href="./index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link fa fa-info" href="./aboutus.html">About</a></li>
+                    <li class="nav-item"><a class="nav-link fa fa-list" href="./menu.html">Order</a></li>
+                    <li class="nav-item"><a class="nav-link fa fa-address-card" href="#">Contact</a>
+                    </li>
+                </ul>
+                <span class="btn fa fa-sign-in" data-toggle="modal" data-target="#loginmodal">Login</span>
+            </div>
+        </div>
+    </navbar>
+    <!-- HEADER CODE -->
+    <div class="jumbotron">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-12 col-sm-6">
+                    <h1>Contact Us</h1>
+                </div>
+                <div class="col-12 col-sm-3">
+                    <img class="logo1" src="img/logo.jpg" height="100px" width="200px" alt="">
+                </div>
+                <div class="col-12 col-sm-3">
+                    <a class="btn btn-primary" href="#reserveform">Reserve Seat</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- MAIN FEATURES -->
+    <div class="container">
+         <!-- LOCATION INFORMATION -->
+         <div class="row row-content">
+            <div class="col-12">
+                <h3>Location Information</h3>
+            </div>
+            <div class="col-12 col-sm-4 offset-sm-1">
+                <h5>Our Address</h5>
+                <address style="font-size: 100%">
+                    121, Clear Water Bay Road<br>
+                    Clear Water Bay,MAINSTREET<br>
+                    LONDON<br>
+                    <i class="fa fa-phone"></i>: +91 1234 567 890<br>
+                    <i class="fa fa-fax"></i>: 1234451<br>
+                    <i class="fa fa-envelope"></i>:
+                    <a href="email@gmail.com">email@gmail.com</a>
+                </address>
+                <div class="btn-group" role="group">
+                    <a class="btn btn-primary" href="tel:+9123456"><i class="fa fa-phone"></i>Call Us</a>
+                    <a class="btn btn-info" href=""><i class="fa fa-skype"></i>Skype</a>
+                    <a class="btn btn-success" href="123@gmail.com"><i class="fa fa-envelope"></i>Email</a>
+                </div>
+            </div>
+            <!-- <div class="col-12 col-sm-11 offset-sm-1">
+                
+            </div> -->
+            <div class="col-12 col-sm-6 offset-sm-1">
+                <h5>Map of our Location</h5>
+                <!-- CODE FOR INCLUDING THE GOOGLE MAPS -->
+                <iframe class="col-12"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d448183.7390738377!2d76.8130725666725!3d28.646677259038043!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cfd5b347eb62d%3A0x37205b715389640!2sDelhi!5e0!3m2!1sen!2sin!4v1589205214703!5m2!1sen!2sin"
+                    width="600" height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false"
+                    tabindex="0"></iframe>
+            </div>
+            <!-- CONTACT-US CARD     -->
+            <div class="row mt-5">
+                <div class="card col-12 col-sm-9">
+                    <div class="card-header bg-secondary text-white">
+                        <h3>Enter your details we will contact you</h3>
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            <dl class="row">
+                                <dd class="col-6 font-weight-bold">Enter your name</dd>
+                                <dl class="col-6">
+                                    <input type="text" class="form-control" placeholder="Enter your name">
+                                </dl>
+                                <dd class="col-6 font-weight-bold"><span class="fa fa-phone"></span>Enter your Phone
+                                    Number</dd>
+                                <dl class="col-6">
+                                    <input type="text" class="form-control">
+                                </dl>
+                                <dd class="col-12 col-sm-6 font-weight-bold">Enter your concern</dd>
+                                <dl class="col-12 col-sm-6">
+                                    <textarea name="" id="" cols="30" rows="10"></textarea>
+                                </dl>
+                            </dl>
+                            <div class="offset-md-6 col-12">
+                                <input class="btn btn-secondary" type="reset">
+                                <input class=" btn btn-warning text-white" type="submit">
+                            </div>
+                        </form>
+                        <!-- <div class="btn-group">
+                        <button class="btn-secondary"></button>
+                    </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+    </div>
+    <!-- FOOTER CODE -->
+    <footer class="footer">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12 col-sm-4">
+                    <h2>Contact Us</h2>
+                    <ul class="list-unstyled">
+                        <li><i class="fa fa-phone"></i>1234567</li>
+                        <li><a class="fa fa-envelope" href="https://gmail.com" style="color:white">email@gmail.com</a>
+                        </li>
+
+                    </ul>
+                </div>
+
+
+                <div class="col-12 col-sm-4">
+                    <h2>Address</h2>
+                    <p>H.NO 123/456</p>
+                    <p>Heaven street</p>
+                    <p>London</p>
+                </div>
+                <div class="col-12 col-sm-4">
+                    <a class="btn btn-social-icon btn-facebook" href="https://facebook.com" target="_blank"><i
+                            class="fa fa-facebook"></i></a>
+                    <a class="btn btn-social-icon btn-twitter" href="https://twitter.com" target="_blank"><i
+                            class="fa fa-twitter"></i></a>
+                    <a class="btn btn-social-icon btn-linkedin" href="https://linkedin.com" target="_blank"><i
+                            class="fa fa-linkedin"></i></a>
+                    <a class="btn btn-social-icon btn-github" href="https://github.com/sainikhil1605" target="_blank"><i
+                            class="fa fa-github"></i></a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <p>©Copyright 2020 Slack</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- INCLUDING JQUERY,POPPER AND BOOTSTRAPS'S JAVASCRIPT FILES RESPECTIVELY-->
+    <script src="node_modules/jquery/dist/jquery.slim.min.js"></script>
+    <script src="node_modules/popper.js/dist/umd/popper.min.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+</body>
+</html>
